@@ -60,20 +60,42 @@ int getDiameter(node *root){
     return max( 1 + max1 + max2, maxDia );
 }
 
+void printGraph(int n){
+    for(int i=1;i<=n;i++){
+        cout << tree[i].key << "\t-\t";
+        node* temp = &tree[i];
+
+        // for(int i=0;i<temp->child.size();i++){
+        //     cout << temp->key << "\t";
+        // }
+
+        for(node* temp: (&tree[i])->child){
+            cout << temp->key << "\t";
+        }
+
+        cout << "\n";
+    }
+
+    cout << "\n";
+}
+
 int main(){
 
     int n;
     cin >> n;
 
-    for(int i=0;i<n;i++){
+    for(int i=0;i<n-1;i++){
         int u, v;
         cin >> u >> v;
 
         node* temp = newNode(v);
+        tree[u].key = u;
         tree[u].child.push_back(temp);
     }
 
-    cout << getDiameter(&tree[0]);
+    printGraph(n);
+
+    cout << getDiameter(&tree[1]);
 
     return 0;
 }
