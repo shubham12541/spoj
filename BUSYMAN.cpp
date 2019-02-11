@@ -6,14 +6,23 @@ using namespace std;
 #define MAX2 1000000
 
 pair<int, int> arr[MAX];
-int counter[MAX2];
+pair<int, int> accepted[MAX];
 
 int compare(pair<int, int> a, pair<int, int> b){
-    return (a.second - a.first) - (b.second - a.first);
+    return (a.second - a.first) - (b.second - b.first);
 }
 
-bool isPossible(int u, int v){
-    for()
+bool isPossible(int u, int v, int noOfAccepted){
+    bool ans = true;
+    for(int i=0;i<noOfAccepted;i++){
+        if(v <= accepted[i].first || u >= accepted[i].second){
+            // nothing
+        } else{
+            ans = false;
+            break;
+        }
+    }
+    return ans;
 }
 
 int main(){
@@ -24,18 +33,41 @@ int main(){
 
     while(t--){
         int n;
+        cin >> n;
 
         for(int i=0;i<n;i++) {
             cin >> arr[i].first >> arr[i].second;
-
         }
 
+        for(int i=0;i<n;i++){
+            cout << arr[i].first << " " << arr[i].second << "\t";
+        }
+
+        cout << "\nSort\n";
+
+
         sort(arr, arr+n, compare);
+
+        for(int i=0;i<n;i++){
+            cout << arr[i].first << " " << arr[i].second << "\t";
+        }
 
         int ans = 0;
 
         for(int i=0;i<n;i++){
-            
+            if(isPossible(arr[i].first, arr[i].second, ans)){
+                accepted[ans++] = arr[i];
+            }
+        }
+
+        cout << ans << "\n";
+
+        for(int i=0;i<n;i++){
+            arr[i].first = 0;
+            arr[i].second = 0;
+
+            accepted[i].first = 0;
+            accepted[i].second = 0;
         }
     }
 
