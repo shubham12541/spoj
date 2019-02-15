@@ -9,7 +9,12 @@ pair<int, int> arr[MAX];
 pair<int, int> accepted[MAX];
 
 int compare(pair<int, int> a, pair<int, int> b){
-    return (a.second - a.first) - (b.second - b.first);
+    if(a.second != b.second){
+        return a.second < b.second;
+    } else{
+        return a.first < a.first;
+    }
+    // return (a.second - a.first) < (b.second - b.first);
 }
 
 bool isPossible(int u, int v, int noOfAccepted){
@@ -39,18 +44,18 @@ int main(){
             cin >> arr[i].first >> arr[i].second;
         }
 
-        for(int i=0;i<n;i++){
-            cout << arr[i].first << " " << arr[i].second << "\t";
-        }
+        // for(int i=0;i<n;i++){
+        //     cout << arr[i].first << " " << arr[i].second << "\t";
+        // }
 
-        cout << "\nSort\n";
+        // cout << "\nSort\n";
 
 
         sort(arr, arr+n, compare);
 
-        for(int i=0;i<n;i++){
-            cout << arr[i].first << " " << arr[i].second << "\t";
-        }
+        // for(int i=0;i<n;i++){
+        //     cout << arr[i].first << " " << arr[i].second << "\t";
+        // }
 
         int ans = 0;
 
