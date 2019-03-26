@@ -38,39 +38,31 @@ int main(){
         }
 
         cout <<  "\n";
+        
+
 
         for(int i=0;i<n;i++){
             for(int j=m-1;j>=0;j--){
-                int tempMax = -1;
+                int tempMax = 0;
 
-                if(i == 0 && j == m-1){
+                if(i==0 && j== m-1){
                     dp[i][j] = 0;
                     continue;
                 } else if(j == m-1){
-                    tempMax = dp[i-1][j];
+                    tempMax = max(tempMax, dp[i-1][j]);
+                } else if(i == 0){
+                    tempMax = max(tempMax, dp[i][j+1]);
                 } else{
-
-                    
-
-                    if(arr[i][j]){
-                        dp[i][j] = dp[i-1][j-1] + 1;
-                        ans += dp[i][j];
-                        continue;
-                    } else{
-                        if(i==0){
-                            tempMax = dp[i][j+1];
-                        } else{
-                            tempMax = max(dp[i-1][j+1], max(dp[i-1][j], dp[i][j+1]));
-                        }
-                        // dp[i][j] = max(dp[i-1][j-1], max(dp[i-1][j], dp[i][j-1]));
-                    }
+                    tempMax = max(dp[i-1][j+1],  max( dp[i-1][j], dp[i][j+1]));
                 }
 
                 if(arr[i][j]){
-                    dp[i-1][j-1] = 1 + tempMax;
+                    dp[i][j] = 1 + tempMax;
+                    ans += dp[i][j];
+                } else{
+                    dp[i][j] = tempMax;
                 }
 
-                dp[i][j] = tempMax;
             }
         }
 
