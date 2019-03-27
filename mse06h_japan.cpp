@@ -43,26 +43,25 @@ int main(){
 
         for(int i=0;i<n;i++){
             for(int j=m-1;j>=0;j--){
-                int tempMax = 0;
-
-                if(i==0 && j== m-1){
+                if(i==0){
                     dp[i][j] = 0;
                     continue;
                 } else if(j == m-1){
-                    tempMax = max(tempMax, dp[i-1][j]);
-                } else if(i == 0){
-                    tempMax = max(tempMax, dp[i][j+1]);
+                    if(arr[i][j]){
+                        dp[i][j] = 1;
+                    } else{
+                        dp[i][j] = 0;
+                    }
+                    // dp[i][j] = dp[i-1][j];
                 } else{
-                    tempMax = max(dp[i-1][j+1],  max( dp[i-1][j], dp[i][j+1]));
+                    if(arr[i][j]){
+                        dp[i][j] = 1 + dp[i-1][j+1];
+                        ans += dp[i][j];
+                        // tempMax = dp[i-1][j+1];
+                    } else{
+                        dp[i][j] = max(dp[i-1][j], dp[i][j+1]);
+                    }
                 }
-
-                if(arr[i][j]){
-                    dp[i][j] = 1 + tempMax;
-                    ans += dp[i][j];
-                } else{
-                    dp[i][j] = tempMax;
-                }
-
             }
         }
 
