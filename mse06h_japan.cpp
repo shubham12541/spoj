@@ -3,7 +3,39 @@ using namespace std;
 
 #define optimizar_io ios_base::sync_with_stdio(0);cin.tie(0);
 #define MAX 2000
+#define ll long long int
 
+
+int bit[MAX];
+
+struct Road{
+    int u, v;
+};
+
+void update(int index, int val, int m){
+    while(index <= m){
+        bit[index] += val;
+        index += index & (-index);
+    }
+}
+
+ll read(int index){
+    ll ans = 0;
+    while(index > 0){
+        ans += bit[index];
+        index -= index & (-index);
+    }
+
+    return ans;
+}
+
+bool compare(Road a, Road b){
+    if(a.u == b.u){
+        return b.v < a.v;
+    } else{
+        return b.u < a.u;
+    }
+}
 
 int main(){
     optimizar_io
@@ -11,73 +43,27 @@ int main(){
     int t;
     cin >> t;
 
-    while(t--){
+    for(int t_i=0;t_i<t;t_i++){
         int n, m, k;
         cin >> n >> m >> k;
 
-        int arr[n][m];
-        int dp[n][m];
+        memset(bit, 0, sizeof(bit));
 
-        for(int i=0;i<n;i++) for(int j=0;j<m;j++) arr[i][j] = 0;
+        Road roads[k];
 
-        while(k--){
-            int a, b;
-            cin >> a >> b;
-            arr[--a][--b] = 1;
+        for(int i=0;i<k;i++){
+            cin >> roads[i].u >> roads[i].v;
         }
 
-        long long int ans = 0;
+        sort(roads, roads+k, compare);
 
-        cout << "\n";
-        
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                cout << arr[i][j] << "\t";
-            }
-            cout << "\n";
+        ll ans = 0;
+        for(int i=0;i<k;i++){
+            ans += read(roads[i].v - 1);
+            update(roads[i].v, 1, m);
         }
 
-        cout <<  "\n";
-        
-
-
-        for(int i=0;i<n;i++){
-            for(int j=m-1;j>=0;j--){
-                if(i==0){
-                    dp[i][j] = 0;
-                    continue;
-                } else if(j == m-1){
-                    if(arr[i][j]){
-                        dp[i][j] = 1;
-                    } else{
-                        dp[i][j] = 0;
-                    }
-                    // dp[i][j] = dp[i-1][j];
-                } else{
-                    if(arr[i][j]){
-                        dp[i][j] = 1 + dp[i-1][j+1];
-                        ans += dp[i][j];
-                        // tempMax = dp[i-1][j+1];
-                    } else{
-                        dp[i][j] = max(dp[i-1][j], dp[i][j+1]);
-                    }
-                }
-            }
-        }
-
-        cout << "\n";
-
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                cout << dp[i][j] << "\t";
-            }
-            cout << "\n";
-        }
-
-        cout <<  "\n";
-
-        cout << ans << "\n";
-
+        cout << "Test case " << t_i + 1 << ": " << ans << "\n";
     }
 
     return 0;
